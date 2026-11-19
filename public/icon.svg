@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="96" fill="#0F172A"/>
+  <rect x="36" y="36" width="440" height="440" rx="76" fill="none" stroke="#F59E0B" stroke-width="10"/>
+  <path d="M132 184h248l-22 164a24 24 0 0 1-24 20H178a24 24 0 0 1-24-20l-22-164z" fill="#1E293B" stroke="#F59E0B" stroke-width="14" stroke-linejoin="round"/>
+  <path d="M196 184v-24c0-33 27-60 60-60s60 27 60 60v24" fill="none" stroke="#10B981" stroke-width="16" stroke-linecap="round"/>
+  <text x="256" y="302" text-anchor="middle" font-family="sans-serif" font-weight="800" font-size="88" fill="#F59E0B">RK</text>
+</svg>

@@ -1,0 +1,430 @@
+{
+  "entities": {
+    "StoreSettings": {
+      "title": "StoreSettings",
+      "description": "Central business configuration for Bhuvaneshwar Prasad RK Mini Mall",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "nameHi": { "type": "string", "maxLength": 200 },
+        "nameEn": { "type": "string", "maxLength": 200 },
+        "tagline": { "type": "string", "maxLength": 200 },
+        "phone": { "type": "string", "maxLength": 32 },
+        "whatsappPhone": { "type": "string", "maxLength": 32 },
+        "address": { "type": "string", "maxLength": 500 },
+        "gstin": { "type": "string", "maxLength": 32 },
+        "state": { "type": "string", "maxLength": 80 },
+        "email": { "type": "string", "maxLength": 160 },
+        "openingHours": { "type": "string", "maxLength": 160 },
+        "isOpen": { "type": "boolean" },
+        "upiId": { "type": "string", "maxLength": 120 },
+        "deliveryCharge": { "type": "number" },
+        "freeDeliveryAbove": { "type": "number" },
+        "minOrderAmount": { "type": "number" },
+        "invoicePrefix": { "type": "string", "maxLength": 24 },
+        "invoiceSequence": { "type": "number" },
+        "gstInclusive": { "type": "boolean" },
+        "loyaltyPointsPer100": { "type": "number" },
+        "loyaltyPointValue": { "type": "number" },
+        "reserveOnlineStock": { "type": "boolean" },
+        "demoModeActive": { "type": "boolean" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "nameHi", "nameEn", "phone", "whatsappPhone"]
+    },
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Authenticated user account and assigned RBAC role",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "email": { "type": "string", "maxLength": 160 },
+        "displayName": { "type": "string", "maxLength": 160 },
+        "role": {
+          "type": "string",
+          "enum": ["owner", "super_admin", "manager", "cashier", "inventory_manager", "accountant", "delivery_staff", "customer"]
+        },
+        "active": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "role", "active"]
+    },
+    "StaffRoleMapping": {
+      "title": "StaffRoleMapping",
+      "description": "Trusted owner-managed RBAC mapping for staff UIDs",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "email": { "type": "string", "maxLength": 160 },
+        "staffId": { "type": "string", "maxLength": 64 },
+        "role": {
+          "type": "string",
+          "enum": ["owner", "super_admin", "manager", "cashier", "inventory_manager", "accountant", "delivery_staff"]
+        },
+        "active": { "type": "boolean" }
+      },
+      "required": ["uid", "role", "active"]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "Supermarket SKU with Hindi/English names, pricing, GST, stock, and batch/expiry",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "nameHi": { "type": "string", "maxLength": 200 },
+        "nameEn": { "type": "string", "maxLength": 200 },
+        "sku": { "type": "string", "maxLength": 64 },
+        "barcode": { "type": "string", "maxLength": 64 },
+        "category": { "type": "string", "maxLength": 100 },
+        "subcategory": { "type": "string", "maxLength": 100 },
+        "brand": { "type": "string", "maxLength": 100 },
+        "hsnCode": { "type": "string", "maxLength": 24 },
+        "gstRate": { "type": "number" },
+        "unit": { "type": "string", "maxLength": 24 },
+        "packSize": { "type": "string", "maxLength": 64 },
+        "purchaseRate": { "type": "number" },
+        "mrp": { "type": "number" },
+        "sellingPrice": { "type": "number" },
+        "wholesalePrice": { "type": "number" },
+        "currentStock": { "type": "number" },
+        "reservedStock": { "type": "number" },
+        "minStock": { "type": "number" },
+        "reorderLevel": { "type": "number" },
+        "rackNumber": { "type": "string", "maxLength": 40 },
+        "batchNumber": { "type": "string", "maxLength": 64 },
+        "expiryDate": { "type": "string", "maxLength": 32 },
+        "imageUrl": { "type": "string", "maxLength": 500 },
+        "active": { "type": "boolean" },
+        "isDemo": { "type": "boolean" }
+      },
+      "required": ["id", "nameHi", "nameEn", "sku", "category", "unit", "mrp", "sellingPrice", "currentStock", "active"]
+    },
+    "InventoryMovement": {
+      "title": "InventoryMovement",
+      "description": "Immutable stock movement audit ledger entry",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "productId": { "type": "string", "maxLength": 128 },
+        "productName": { "type": "string", "maxLength": 200 },
+        "type": { "type": "string", "maxLength": 40 },
+        "previousStock": { "type": "number" },
+        "stockIn": { "type": "number" },
+        "stockOut": { "type": "number" },
+        "newStock": { "type": "number" },
+        "reason": { "type": "string", "maxLength": 300 },
+        "referenceNo": { "type": "string", "maxLength": 80 },
+        "staffName": { "type": "string", "maxLength": 120 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "isDemo": { "type": "boolean" }
+      },
+      "required": ["id", "productId", "type", "previousStock", "newStock", "createdAt"]
+    },
+    "Supplier": {
+      "title": "Supplier",
+      "description": "Wholesale vendor and credit terms",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "businessName": { "type": "string", "maxLength": 200 },
+        "contactPerson": { "type": "string", "maxLength": 120 },
+        "mobile": { "type": "string", "maxLength": 32 },
+        "gstin": { "type": "string", "maxLength": 32 },
+        "currentBalance": { "type": "number" },
+        "isDemo": { "type": "boolean" }
+      },
+      "required": ["id", "businessName", "mobile"]
+    },
+    "Purchase": {
+      "title": "Purchase",
+      "description": "Supplier purchase bill and GRN inward record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "supplierId": { "type": "string", "maxLength": 128 },
+        "supplierName": { "type": "string", "maxLength": 200 },
+        "invoiceNo": { "type": "string", "maxLength": 64 },
+        "status": { "type": "string", "maxLength": 40 },
+        "totalAmount": { "type": "number" },
+        "paidAmount": { "type": "number" },
+        "dueAmount": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "isDemo": { "type": "boolean" }
+      },
+      "required": ["id", "supplierId", "invoiceNo", "totalAmount", "status"]
+    },
+    "Customer": {
+      "title": "Customer",
+      "description": "CRM profile with loyalty points and Udhaar Khata balance",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "name": { "type": "string", "maxLength": 160 },
+        "mobile": { "type": "string", "maxLength": 32 },
+        "area": { "type": "string", "maxLength": 120 },
+        "loyaltyPoints": { "type": "number" },
+        "totalPurchase": { "type": "number" },
+        "outstandingDue": { "type": "number" },
+        "creditLimit": { "type": "number" },
+        "marketingConsent": { "type": "boolean" },
+        "status": { "type": "string", "maxLength": 32 },
+        "isDemo": { "type": "boolean" }
+      },
+      "required": ["id", "name", "mobile"]
+    },
+    "CustomerLedgerEntry": {
+      "title": "CustomerLedgerEntry",
+      "description": "Immutable Customer Khata credit/payment/reversal transaction",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "customerId": { "type": "string", "maxLength": 128 },
+        "invoiceNo": { "type": "string", "maxLength": 64 },
+        "entryType": { "type": "string", "maxLength": 32 },
+        "previousBalance": { "type": "number" },
+        "creditAdded": { "type": "number" },
+        "paymentReceived": { "type": "number" },
+        "remainingDue": { "type": "number" },
+        "paymentMode": { "type": "string", "maxLength": 32 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "isDemo": { "type": "boolean" }
+      },
+      "required": ["id", "customerId", "entryType", "remainingDue", "createdAt"]
+    },
+    "Offer": {
+      "title": "Offer",
+      "description": "Promotional discount and coupon rule",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "name": { "type": "string", "maxLength": 160 },
+        "couponCode": { "type": "string", "maxLength": 40 },
+        "offerType": { "type": "string", "maxLength": 40 },
+        "discountValue": { "type": "number" },
+        "minPurchase": { "type": "number" },
+        "active": { "type": "boolean" },
+        "isDemo": { "type": "boolean" }
+      },
+      "required": ["id", "name", "offerType", "active"]
+    },
+    "Sale": {
+      "title": "Sale",
+      "description": "Immutable POS invoice and payment summary with idempotency key",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "invoiceNo": { "type": "string", "maxLength": 64 },
+        "idempotencyKey": { "type": "string", "maxLength": 128 },
+        "customerId": { "type": "string", "maxLength": 128 },
+        "customerName": { "type": "string", "maxLength": 160 },
+        "cashierName": { "type": "string", "maxLength": 120 },
+        "grandTotal": { "type": "number" },
+        "paymentMode": { "type": "string", "maxLength": 40 },
+        "status": { "type": "string", "maxLength": 32 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "isDemo": { "type": "boolean" }
+      },
+      "required": ["id", "invoiceNo", "idempotencyKey", "grandTotal", "paymentMode", "status", "createdAt"]
+    },
+    "OnlineOrder": {
+      "title": "OnlineOrder",
+      "description": "Customer storefront order with delivery/pickup workflow",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "orderNo": { "type": "string", "maxLength": 64 },
+        "customerUid": { "type": "string", "maxLength": 128 },
+        "customerName": { "type": "string", "maxLength": 160 },
+        "customerMobile": { "type": "string", "maxLength": 32 },
+        "fulfillmentType": { "type": "string", "enum": ["delivery", "pickup"] },
+        "status": { "type": "string", "enum": ["new", "confirmed", "packing", "ready_for_pickup", "out_for_delivery", "delivered", "cancelled", "returned"] },
+        "grandTotal": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "isDemo": { "type": "boolean" }
+      },
+      "required": ["id", "orderNo", "customerName", "customerMobile", "fulfillmentType", "status", "grandTotal", "createdAt"]
+    },
+    "StaffMember": {
+      "title": "StaffMember",
+      "description": "Mall employee record with designation, salary, and role",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "fullName": { "type": "string", "maxLength": 160 },
+        "mobile": { "type": "string", "maxLength": 32 },
+        "email": { "type": "string", "maxLength": 160 },
+        "role": { "type": "string", "maxLength": 40 },
+        "salary": { "type": "number" },
+        "status": { "type": "string", "maxLength": 32 },
+        "isDemo": { "type": "boolean" }
+      },
+      "required": ["id", "fullName", "mobile", "role", "status"]
+    },
+    "AttendanceRecord": {
+      "title": "AttendanceRecord",
+      "description": "Daily staff check-in, check-out, shift, and overtime record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "staffId": { "type": "string", "maxLength": 128 },
+        "date": { "type": "string", "maxLength": 20 },
+        "status": { "type": "string", "maxLength": 32 },
+        "isDemo": { "type": "boolean" }
+      },
+      "required": ["id", "staffId", "date", "status"]
+    },
+    "PayrollRecord": {
+      "title": "PayrollRecord",
+      "description": "Private monthly employee salary slip record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "staffId": { "type": "string", "maxLength": 128 },
+        "month": { "type": "string", "maxLength": 20 },
+        "netPay": { "type": "number" },
+        "isDemo": { "type": "boolean" }
+      },
+      "required": ["id", "staffId", "month", "netPay"]
+    },
+    "Expense": {
+      "title": "Expense",
+      "description": "Operating expense ledger entry",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "date": { "type": "string", "maxLength": 20 },
+        "category": { "type": "string", "maxLength": 64 },
+        "amount": { "type": "number" },
+        "paymentMode": { "type": "string", "maxLength": 32 },
+        "isDemo": { "type": "boolean" }
+      },
+      "required": ["id", "date", "category", "amount", "paymentMode"]
+    },
+    "CashRegister": {
+      "title": "CashRegister",
+      "description": "Daily cash register opening and closing reconciliation",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "date": { "type": "string", "maxLength": 20 },
+        "openingCash": { "type": "number" },
+        "closingCash": { "type": "number" },
+        "status": { "type": "string", "maxLength": 32 }
+      },
+      "required": ["id", "date", "openingCash", "status"]
+    },
+    "MessageLog": {
+      "title": "MessageLog",
+      "description": "WhatsApp/SMS/Email queue and provider response log",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "channel": { "type": "string", "maxLength": 24 },
+        "recipient": { "type": "string", "maxLength": 160 },
+        "trigger": { "type": "string", "maxLength": 64 },
+        "status": { "type": "string", "maxLength": 32 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "channel", "recipient", "status", "createdAt"]
+    },
+    "AuditLog": {
+      "title": "AuditLog",
+      "description": "Immutable security and operational audit trail",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "actorUid": { "type": "string", "maxLength": 128 },
+        "actorEmail": { "type": "string", "maxLength": 160 },
+        "action": { "type": "string", "maxLength": 80 },
+        "entityType": { "type": "string", "maxLength": 64 },
+        "entityId": { "type": "string", "maxLength": 128 },
+        "summary": { "type": "string", "maxLength": 400 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "action", "entityType", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/store_settings/{settingId}": {
+      "schema": { "$ref": "#/entities/StoreSettings" },
+      "description": "Central mall configuration and contact details"
+    },
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "User profiles keyed by Firebase Auth UID"
+    },
+    "/staff_roles/{userId}": {
+      "schema": { "$ref": "#/entities/StaffRoleMapping" },
+      "description": "Owner-controlled RBAC role assignments"
+    },
+    "/products/{productId}": {
+      "schema": { "$ref": "#/entities/Product" },
+      "description": "Master product catalog and stock levels"
+    },
+    "/inventory_movements/{movementId}": {
+      "schema": { "$ref": "#/entities/InventoryMovement" },
+      "description": "Immutable inventory ledger entries"
+    },
+    "/suppliers/{supplierId}": {
+      "schema": { "$ref": "#/entities/Supplier" },
+      "description": "Suppliers and payable balances"
+    },
+    "/purchases/{purchaseId}": {
+      "schema": { "$ref": "#/entities/Purchase" },
+      "description": "Purchase orders, GRNs, and supplier invoices"
+    },
+    "/supplier_ledger/{entryId}": {
+      "schema": { "$ref": "#/entities/AuditLog" },
+      "description": "Immutable supplier financial ledger"
+    },
+    "/customers/{customerId}": {
+      "schema": { "$ref": "#/entities/Customer" },
+      "description": "Customer CRM and Khata accounts"
+    },
+    "/customer_ledger/{entryId}": {
+      "schema": { "$ref": "#/entities/CustomerLedgerEntry" },
+      "description": "Immutable customer Udhaar and payment ledger"
+    },
+    "/offers/{offerId}": {
+      "schema": { "$ref": "#/entities/Offer" },
+      "description": "Active discounts, combos, and coupon codes"
+    },
+    "/sales/{saleId}": {
+      "schema": { "$ref": "#/entities/Sale" },
+      "description": "POS bills, GST totals, and idempotency keys"
+    },
+    "/online_orders/{orderId}": {
+      "schema": { "$ref": "#/entities/OnlineOrder" },
+      "description": "Storefront orders and delivery status"
+    },
+    "/staff/{staffId}": {
+      "schema": { "$ref": "#/entities/StaffMember" },
+      "description": "Employee master records"
+    },
+    "/attendance/{attendanceId}": {
+      "schema": { "$ref": "#/entities/AttendanceRecord" },
+      "description": "Staff attendance logs"
+    },
+    "/payroll/{payrollId}": {
+      "schema": { "$ref": "#/entities/PayrollRecord" },
+      "description": "Private employee payroll records"
+    },
+    "/expenses/{expenseId}": {
+      "schema": { "$ref": "#/entities/Expense" },
+      "description": "Mall operating expenses"
+    },
+    "/cash_registers/{registerId}": {
+      "schema": { "$ref": "#/entities/CashRegister" },
+      "description": "Daily cash register closings"
+    },
+    "/message_logs/{logId}": {
+      "schema": { "$ref": "#/entities/MessageLog" },
+      "description": "WhatsApp, SMS, and email dispatch logs"
+    },
+    "/audit_logs/{logId}": {
+      "schema": { "$ref": "#/entities/AuditLog" },
+      "description": "Immutable security and ERP audit trail"
+    }
+  }
+}

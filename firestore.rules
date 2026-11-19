@@ -1,0 +1,427 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Global Safety Net (Default-Deny)
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Connection check document (no sensitive data)
+    match /test/connection {
+      allow get: if true;
+    }
+
+    // --- Reusable Hardened Primitives ---
+    function isValidId(id) {
+      return id is string && id.size() >= 1 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isVerifiedUser() {
+      return isSignedIn() && request.auth.token.email_verified == true;
+    }
+
+    function isOwner() {
+      return isVerifiedUser() && (
+        request.auth.token.email == 'rkminimall.sirdala@gmail.com' ||
+        (
+          exists(/databases/$(database)/documents/staff_roles/$(request.auth.uid)) &&
+          get(/databases/$(database)/documents/staff_roles/$(request.auth.uid)).data.active == true &&
+          get(/databases/$(database)/documents/staff_roles/$(request.auth.uid)).data.role in ['owner', 'super_admin']
+        )
+      );
+    }
+
+    function hasStaffRole(allowedRoles) {
+      return isOwner() || (
+        isVerifiedUser() &&
+        exists(/databases/$(database)/documents/staff_roles/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/staff_roles/$(request.auth.uid)).data.active == true &&
+        get(/databases/$(database)/documents/staff_roles/$(request.auth.uid)).data.role in allowedRoles
+      );
+    }
+
+    function isAnyStaff() {
+      return hasStaffRole(['owner', 'super_admin', 'manager', 'cashier', 'inventory_manager', 'accountant', 'delivery_staff']);
+    }
+
+    // --- Entity Validation Blueprints ---
+    function isValidStoreSettings(data) {
+      return data.keys().hasAll(['id', 'nameHi', 'nameEn', 'phone', 'whatsappPhone'])
+        && data.id is string && data.id.size() <= 64
+        && data.nameHi is string && data.nameHi.size() <= 200
+        && data.nameEn is string && data.nameEn.size() <= 200
+        && data.phone is string && data.phone.size() <= 32
+        && data.whatsappPhone is string && data.whatsappPhone.size() <= 32;
+    }
+
+    function isValidUserProfile(data, uid) {
+      return data.keys().hasAll(['uid', 'email', 'role', 'active'])
+        && data.uid == uid
+        && data.email is string && data.email.size() <= 160
+        && data.role in ['owner', 'super_admin', 'manager', 'cashier', 'inventory_manager', 'accountant', 'delivery_staff', 'customer']
+        && data.active is bool;
+    }
+
+    function isValidStaffRole(data, uid) {
+      return data.keys().hasAll(['uid', 'role', 'active'])
+        && data.uid == uid
+        && data.role in ['owner', 'super_admin', 'manager', 'cashier', 'inventory_manager', 'accountant', 'delivery_staff']
+        && data.active is bool;
+    }
+
+    function isValidProduct(data) {
+      return data.keys().hasAll(['id', 'nameHi', 'nameEn', 'sku', 'category', 'unit', 'mrp', 'sellingPrice', 'currentStock', 'active'])
+        && data.id is string && data.id.size() <= 128
+        && data.nameHi is string && data.nameHi.size() <= 200
+        && data.nameEn is string && data.nameEn.size() <= 200
+        && data.sku is string && data.sku.size() <= 64
+        && data.category is string && data.category.size() <= 100
+        && data.unit is string && data.unit.size() <= 24
+        && data.mrp is number && data.mrp >= 0
+        && data.sellingPrice is number && data.sellingPrice >= 0
+        && data.currentStock is number
+        && data.active is bool;
+    }
+
+    function isValidMovement(data) {
+      return data.keys().hasAll(['id', 'productId', 'type', 'previousStock', 'newStock', 'createdAt'])
+        && data.id is string && data.id.size() <= 128
+        && data.productId is string && data.productId.size() <= 128
+        && data.type is string && data.type.size() <= 40
+        && data.previousStock is number
+        && data.newStock is number
+        && data.createdAt is string && data.createdAt.size() <= 64;
+    }
+
+    function isValidSupplier(data) {
+      return data.keys().hasAll(['id', 'businessName', 'mobile'])
+        && data.id is string && data.id.size() <= 128
+        && data.businessName is string && data.businessName.size() <= 200
+        && data.mobile is string && data.mobile.size() <= 32;
+    }
+
+    function isValidPurchase(data) {
+      return data.keys().hasAll(['id', 'supplierId', 'invoiceNo', 'totalAmount', 'status'])
+        && data.id is string && data.id.size() <= 128
+        && data.supplierId is string && data.supplierId.size() <= 128
+        && data.invoiceNo is string && data.invoiceNo.size() <= 64
+        && data.totalAmount is number && data.totalAmount >= 0
+        && data.status is string && data.status.size() <= 40;
+    }
+
+    function isValidSupplierLedger(data) {
+      return data.keys().hasAll(['id', 'supplierId', 'entryType', 'remainingDue', 'createdAt'])
+        && data.id is string && data.id.size() <= 128
+        && data.supplierId is string && data.supplierId.size() <= 128
+        && data.entryType is string && data.entryType.size() <= 32
+        && data.remainingDue is number
+        && data.createdAt is string && data.createdAt.size() <= 64;
+    }
+
+    function isValidCustomer(data) {
+      return data.keys().hasAll(['id', 'name', 'mobile'])
+        && data.id is string && data.id.size() <= 128
+        && data.name is string && data.name.size() <= 160
+        && data.mobile is string && data.mobile.size() <= 32;
+    }
+
+    function isValidCustomerLedger(data) {
+      return data.keys().hasAll(['id', 'customerId', 'entryType', 'remainingDue', 'createdAt'])
+        && data.id is string && data.id.size() <= 128
+        && data.customerId is string && data.customerId.size() <= 128
+        && data.entryType is string && data.entryType.size() <= 32
+        && data.remainingDue is number
+        && data.createdAt is string && data.createdAt.size() <= 64;
+    }
+
+    function isValidOffer(data) {
+      return data.keys().hasAll(['id', 'name', 'offerType', 'active'])
+        && data.id is string && data.id.size() <= 128
+        && data.name is string && data.name.size() <= 160
+        && data.offerType is string && data.offerType.size() <= 40
+        && data.active is bool;
+    }
+
+    function isValidSale(data) {
+      return data.keys().hasAll(['id', 'invoiceNo', 'idempotencyKey', 'grandTotal', 'paymentMode', 'status', 'createdAt'])
+        && data.id is string && data.id.size() <= 128
+        && data.invoiceNo is string && data.invoiceNo.size() <= 64
+        && data.idempotencyKey is string && data.idempotencyKey.size() <= 128
+        && data.grandTotal is number && data.grandTotal >= 0
+        && data.paymentMode is string && data.paymentMode.size() <= 40
+        && data.status is string && data.status.size() <= 32
+        && data.createdAt is string && data.createdAt.size() <= 64;
+    }
+
+    function isValidOnlineOrder(data) {
+      return data.keys().hasAll(['id', 'orderNo', 'customerName', 'customerMobile', 'fulfillmentType', 'status', 'grandTotal', 'createdAt'])
+        && data.id is string && data.id.size() <= 128
+        && data.orderNo is string && data.orderNo.size() <= 64
+        && data.customerName is string && data.customerName.size() <= 160
+        && data.customerMobile is string && data.customerMobile.size() <= 32
+        && data.fulfillmentType in ['delivery', 'pickup']
+        && data.status in ['new', 'confirmed', 'packing', 'ready_for_pickup', 'out_for_delivery', 'delivered', 'cancelled', 'returned']
+        && data.grandTotal is number && data.grandTotal >= 0
+        && data.createdAt is string && data.createdAt.size() <= 64;
+    }
+
+    function isValidStaffMember(data) {
+      return data.keys().hasAll(['id', 'fullName', 'mobile', 'role', 'status'])
+        && data.id is string && data.id.size() <= 128
+        && data.fullName is string && data.fullName.size() <= 160
+        && data.mobile is string && data.mobile.size() <= 32
+        && data.role is string && data.role.size() <= 40
+        && data.status is string && data.status.size() <= 32;
+    }
+
+    function isValidAttendance(data) {
+      return data.keys().hasAll(['id', 'staffId', 'date', 'status'])
+        && data.id is string && data.id.size() <= 128
+        && data.staffId is string && data.staffId.size() <= 128
+        && data.date is string && data.date.size() <= 20
+        && data.status is string && data.status.size() <= 32;
+    }
+
+    function isValidPayroll(data) {
+      return data.keys().hasAll(['id', 'staffId', 'month', 'netPay'])
+        && data.id is string && data.id.size() <= 128
+        && data.staffId is string && data.staffId.size() <= 128
+        && data.month is string && data.month.size() <= 20
+        && data.netPay is number && data.netPay >= 0;
+    }
+
+    function isValidExpense(data) {
+      return data.keys().hasAll(['id', 'date', 'category', 'amount', 'paymentMode'])
+        && data.id is string && data.id.size() <= 128
+        && data.date is string && data.date.size() <= 20
+        && data.category is string && data.category.size() <= 64
+        && data.amount is number && data.amount >= 0
+        && data.paymentMode is string && data.paymentMode.size() <= 32;
+    }
+
+    function isValidCashRegister(data) {
+      return data.keys().hasAll(['id', 'date', 'openingCash', 'status'])
+        && data.id is string && data.id.size() <= 128
+        && data.date is string && data.date.size() <= 20
+        && data.openingCash is number && data.openingCash >= 0
+        && data.status is string && data.status.size() <= 32;
+    }
+
+    function isValidMessageLog(data) {
+      return data.keys().hasAll(['id', 'channel', 'recipient', 'status', 'createdAt'])
+        && data.id is string && data.id.size() <= 128
+        && data.channel is string && data.channel.size() <= 24
+        && data.recipient is string && data.recipient.size() <= 160
+        && data.status is string && data.status.size() <= 32
+        && data.createdAt is string && data.createdAt.size() <= 64;
+    }
+
+    function isValidAuditLog(data) {
+      return data.keys().hasAll(['id', 'action', 'entityType', 'createdAt'])
+        && data.id is string && data.id.size() <= 128
+        && data.action is string && data.action.size() <= 80
+        && data.entityType is string && data.entityType.size() <= 64
+        && data.createdAt is string && data.createdAt.size() <= 64;
+    }
+
+    // --- Store Settings (Public Storefront Read, Owner Write) ---
+    match /store_settings/{settingId} {
+      allow get: if isValidId(settingId);
+      allow list: if isOwner();
+      allow create, update: if isValidId(settingId) && isOwner() && isValidStoreSettings(incoming());
+      allow delete: if false;
+    }
+
+    // --- Users (PII Isolated: Self or Owner) ---
+    match /users/{userId} {
+      allow get: if isValidId(userId) && (isOwner() || (isVerifiedUser() && request.auth.uid == userId));
+      allow list: if isOwner();
+      allow create: if isValidId(userId) && isVerifiedUser() && request.auth.uid == userId
+        && isValidUserProfile(incoming(), userId)
+        && (incoming().role == 'customer' || (incoming().role == 'owner' && request.auth.token.email == 'rkminimall.sirdala@gmail.com'));
+      allow update: if isValidId(userId) && (
+        (isOwner() && isValidUserProfile(incoming(), userId)) ||
+        (isVerifiedUser() && request.auth.uid == userId && isValidUserProfile(incoming(), userId) && incoming().role == existing().role)
+      );
+      allow delete: if false;
+    }
+
+    // --- Staff RBAC Role Mappings (Owner Managed) ---
+    match /staff_roles/{userId} {
+      allow get: if isValidId(userId) && (isOwner() || (isVerifiedUser() && request.auth.uid == userId));
+      allow list: if isOwner();
+      allow create, update: if isValidId(userId) && isOwner() && isValidStaffRole(incoming(), userId);
+      allow delete: if isValidId(userId) && isOwner();
+    }
+
+    // --- Products (Public Catalog Read, Staff Inventory/POS Write) ---
+    match /products/{productId} {
+      allow get: if isValidId(productId);
+      allow list: if true;
+      allow create: if isValidId(productId) && hasStaffRole(['manager', 'inventory_manager']) && isValidProduct(incoming());
+      allow update: if isValidId(productId) && isValidProduct(incoming()) && (
+        hasStaffRole(['manager', 'inventory_manager']) ||
+        (hasStaffRole(['cashier']) && incoming().diff(existing()).affectedKeys().hasOnly(['currentStock', 'reservedStock', 'updatedAt']))
+      );
+      allow delete: if isValidId(productId) && isOwner() && existing().get('isDemo', false) == true;
+    }
+
+    // --- Immutable Inventory Movements ---
+    match /inventory_movements/{movementId} {
+      allow get: if isValidId(movementId) && isAnyStaff();
+      allow list: if isAnyStaff();
+      allow create: if isValidId(movementId) && hasStaffRole(['manager', 'inventory_manager', 'cashier']) && isValidMovement(incoming());
+      allow update: if false;
+      allow delete: if isValidId(movementId) && isOwner() && existing().get('isDemo', false) == true;
+    }
+
+    // --- Suppliers ---
+    match /suppliers/{supplierId} {
+      allow get: if isValidId(supplierId) && hasStaffRole(['manager', 'inventory_manager', 'accountant']);
+      allow list: if hasStaffRole(['manager', 'inventory_manager', 'accountant']);
+      allow create, update: if isValidId(supplierId) && hasStaffRole(['manager', 'inventory_manager', 'accountant']) && isValidSupplier(incoming());
+      allow delete: if isValidId(supplierId) && isOwner() && existing().get('isDemo', false) == true;
+    }
+
+    // --- Purchases ---
+    match /purchases/{purchaseId} {
+      allow get: if isValidId(purchaseId) && hasStaffRole(['manager', 'inventory_manager', 'accountant']);
+      allow list: if hasStaffRole(['manager', 'inventory_manager', 'accountant']);
+      allow create, update: if isValidId(purchaseId) && hasStaffRole(['manager', 'inventory_manager', 'accountant']) && isValidPurchase(incoming());
+      allow delete: if isValidId(purchaseId) && isOwner() && existing().get('isDemo', false) == true;
+    }
+
+    // --- Immutable Supplier Ledger ---
+    match /supplier_ledger/{entryId} {
+      allow get: if isValidId(entryId) && hasStaffRole(['manager', 'accountant']);
+      allow list: if hasStaffRole(['manager', 'accountant']);
+      allow create: if isValidId(entryId) && hasStaffRole(['manager', 'inventory_manager', 'accountant']) && isValidSupplierLedger(incoming());
+      allow update: if false;
+      allow delete: if isValidId(entryId) && isOwner() && existing().get('isDemo', false) == true;
+    }
+
+    // --- Customers CRM (PII Restricted to Staff) ---
+    match /customers/{customerId} {
+      allow get: if isValidId(customerId) && hasStaffRole(['manager', 'cashier', 'accountant']);
+      allow list: if hasStaffRole(['manager', 'cashier', 'accountant']);
+      allow create, update: if isValidId(customerId) && hasStaffRole(['manager', 'cashier', 'accountant']) && isValidCustomer(incoming());
+      allow delete: if isValidId(customerId) && isOwner() && existing().get('isDemo', false) == true;
+    }
+
+    // --- Immutable Customer Khata Ledger ---
+    match /customer_ledger/{entryId} {
+      allow get: if isValidId(entryId) && hasStaffRole(['manager', 'cashier', 'accountant']);
+      allow list: if hasStaffRole(['manager', 'cashier', 'accountant']);
+      allow create: if isValidId(entryId) && hasStaffRole(['manager', 'cashier', 'accountant']) && isValidCustomerLedger(incoming());
+      allow update: if false;
+      allow delete: if isValidId(entryId) && isOwner() && existing().get('isDemo', false) == true;
+    }
+
+    // --- Offers & Coupons (Public Active Read, Manager/Owner Write) ---
+    match /offers/{offerId} {
+      allow get: if isValidId(offerId);
+      allow list: if true;
+      allow create, update: if isValidId(offerId) && hasStaffRole(['manager']) && isValidOffer(incoming());
+      allow delete: if isValidId(offerId) && isOwner() && existing().get('isDemo', false) == true;
+    }
+
+    // --- Immutable POS Sales & Invoices ---
+    match /sales/{saleId} {
+      allow get: if isValidId(saleId) && hasStaffRole(['manager', 'cashier', 'accountant']);
+      allow list: if hasStaffRole(['manager', 'cashier', 'accountant']);
+      allow create: if isValidId(saleId) && hasStaffRole(['manager', 'cashier']) && isValidSale(incoming());
+      allow update: if isValidId(saleId) && hasStaffRole(['manager', 'accountant']) && isValidSale(incoming())
+        && incoming().diff(existing()).affectedKeys().hasOnly(['status', 'refundedAmount', 'updatedAt']);
+      allow delete: if isValidId(saleId) && isOwner() && existing().get('isDemo', false) == true;
+    }
+
+    // --- Online Orders ---
+    match /online_orders/{orderId} {
+      allow get: if isValidId(orderId) && (
+        hasStaffRole(['manager', 'cashier', 'delivery_staff', 'accountant']) ||
+        (isVerifiedUser() && existing().get('customerUid', '') == request.auth.uid)
+      );
+      allow list: if hasStaffRole(['manager', 'cashier', 'delivery_staff', 'accountant']) ||
+        (isVerifiedUser() && resource.data.customerUid == request.auth.uid);
+      allow create: if isValidId(orderId) && isVerifiedUser() && isValidOnlineOrder(incoming())
+        && incoming().status == 'new'
+        && incoming().get('customerUid', '') == request.auth.uid;
+      allow update: if isValidId(orderId) && isValidOnlineOrder(incoming()) && (
+        hasStaffRole(['manager', 'cashier']) ||
+        (hasStaffRole(['delivery_staff']) && incoming().diff(existing()).affectedKeys().hasOnly(['status', 'proofOfDelivery', 'failedReason', 'deliveredAt', 'updatedAt'])) ||
+        (isVerifiedUser() && existing().get('customerUid', '') == request.auth.uid && existing().status == 'new' && incoming().status == 'cancelled' && incoming().diff(existing()).affectedKeys().hasOnly(['status', 'updatedAt']))
+      );
+      allow delete: if isValidId(orderId) && isOwner() && existing().get('isDemo', false) == true;
+    }
+
+    // --- Staff Master ---
+    match /staff/{staffId} {
+      allow get: if isValidId(staffId) && hasStaffRole(['manager', 'accountant']);
+      allow list: if hasStaffRole(['manager', 'accountant']);
+      allow create, update: if isValidId(staffId) && hasStaffRole(['manager']) && isValidStaffMember(incoming());
+      allow delete: if isValidId(staffId) && isOwner() && existing().get('isDemo', false) == true;
+    }
+
+    // --- Attendance ---
+    match /attendance/{attendanceId} {
+      allow get: if isValidId(attendanceId) && isAnyStaff();
+      allow list: if hasStaffRole(['manager', 'accountant']);
+      allow create, update: if isValidId(attendanceId) && hasStaffRole(['manager']) && isValidAttendance(incoming());
+      allow delete: if isValidId(attendanceId) && isOwner() && existing().get('isDemo', false) == true;
+    }
+
+    // --- Private Payroll ---
+    match /payroll/{payrollId} {
+      allow get: if isValidId(payrollId) && hasStaffRole(['accountant']);
+      allow list: if hasStaffRole(['accountant']);
+      allow create, update: if isValidId(payrollId) && hasStaffRole(['accountant']) && isValidPayroll(incoming());
+      allow delete: if isValidId(payrollId) && isOwner() && existing().get('isDemo', false) == true;
+    }
+
+    // --- Expenses & Cash Registers ---
+    match /expenses/{expenseId} {
+      allow get: if isValidId(expenseId) && hasStaffRole(['manager', 'accountant']);
+      allow list: if hasStaffRole(['manager', 'accountant']);
+      allow create: if isValidId(expenseId) && hasStaffRole(['manager', 'accountant', 'cashier']) && isValidExpense(incoming());
+      allow update: if isValidId(expenseId) && hasStaffRole(['accountant']) && isValidExpense(incoming());
+      allow delete: if isValidId(expenseId) && isOwner() && existing().get('isDemo', false) == true;
+    }
+
+    match /cash_registers/{registerId} {
+      allow get: if isValidId(registerId) && hasStaffRole(['manager', 'cashier', 'accountant']);
+      allow list: if hasStaffRole(['manager', 'cashier', 'accountant']);
+      allow create, update: if isValidId(registerId) && hasStaffRole(['manager', 'cashier', 'accountant']) && isValidCashRegister(incoming());
+      allow delete: if isValidId(registerId) && isOwner() && existing().get('isDemo', false) == true;
+    }
+
+    // --- Message Logs (WhatsApp / SMS / Email) ---
+    match /message_logs/{logId} {
+      allow get: if isValidId(logId) && hasStaffRole(['manager', 'accountant']);
+      allow list: if hasStaffRole(['manager', 'accountant']);
+      allow create: if isValidId(logId) && hasStaffRole(['manager', 'cashier', 'accountant']) && isValidMessageLog(incoming());
+      allow update: if isValidId(logId) && hasStaffRole(['manager']) && isValidMessageLog(incoming());
+      allow delete: if isValidId(logId) && isOwner() && existing().get('isDemo', false) == true;
+    }
+
+    // --- Immutable Audit Logs ---
+    match /audit_logs/{logId} {
+      allow get: if isValidId(logId) && isOwner();
+      allow list: if isOwner();
+      allow create: if isValidId(logId) && isAnyStaff() && isValidAuditLog(incoming());
+      allow update, delete: if false;
+    }
+  }
+}

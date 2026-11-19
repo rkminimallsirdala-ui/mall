@@ -1,0 +1,6 @@
+{
+  "name": "भुवनेश्वर प्रसाद RK मिनी मॉल — Supermarket ERP & Store",
+  "description": "Complete Supermarket ERP, POS Billing, Inventory, Purchases, Customer Khata, Staff Payroll, GST Accounting, WhatsApp Automation & Online Store for Bhuvaneshwar Prasad RK Mini Mall.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

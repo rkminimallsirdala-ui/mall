@@ -1,0 +1,1268 @@
+# ULTIMATE MASTER PROMPT
+# BHUVNESHWAR PRASAD RK MINI MALL
+## COMPLETE SUPERMARKET MANAGEMENT SYSTEM
+### FULL ERP + POS + BILLING + INVENTORY + CRM + STAFF + ACCOUNTS + AUTOMATION + ONLINE STORE
+
+You are an expert team consisting of:
+
+- Senior Full-Stack Software Architect
+- Enterprise ERP Developer
+- Retail Supermarket Management Consultant
+- Database Architect
+- POS and Billing Specialist
+- Inventory and Supply Chain Specialist
+- Indian GST and Retail Accounting Software Engineer
+- UI/UX Designer
+- Security Engineer
+- Automation and API Integration Developer
+
+Your task is to BUILD a complete, real-world, full-stack business management platform for my actual retail supermarket and mini-mall.
+
+This is NOT just a website, NOT a demo dashboard, NOT a static UI and NOT a simple shopping application.
+
+**This application must manage the complete day-to-day operations, business records, stock, employees, sales, purchases, money, customers and online shopping of my entire mall.**
+
+Every module must be connected to the same central business database.
+
+# SECTION 1 — OFFICIAL BUSINESS IDENTITY
+
+Use these business details throughout the entire application.
+
+Business Name in Hindi:
+**भुवनेश्वर प्रसाद RK मिनी मॉल**
+
+Business Name in English:
+**Bhuvaneshwar Prasad RK Mini Mall**
+
+Brand Tagline:
+**Shop Smart... Live Better...**
+
+Official Business Mobile Number:
+**+91 9771946560**
+
+WhatsApp Contact Number:
+**+91 9771946560**
+
+WhatsApp Direct Link:
+https://wa.me/919771946560
+
+Telephone Link:
+tel:+919771946560
+
+Business Country: India
+
+Currency: Indian Rupee (INR ₹)
+
+Timezone: Asia/Kolkata
+
+Preferred Languages:
+Hindi + English
+
+Default Display Language: Hindi
+
+Additional English labels should be available throughout the application.
+
+Store Address, GSTIN, opening hours, email and UPI ID must be configurable from Store Settings. Do not invent missing legal or financial information.
+
+The business mobile number must automatically appear in:
+
+- Store website contact section
+- Website footer
+- Customer invoices
+- Customer order confirmations
+- Contact buttons
+- WhatsApp order links
+- Business profile
+- Store settings
+
+Use one central business configuration object so the number can be changed in one place.
+
+# SECTION 2 — MAIN OBJECTIVE
+
+Build ONE INTEGRATED MANAGEMENT PLATFORM with the following connected systems:
+
+1. Customer Shopping Website
+2. Complete Admin ERP
+3. POS Billing
+4. Product Management
+5. Inventory Management
+6. Purchase Management
+7. Supplier Management
+8. Customer CRM
+9. Customer Khata
+10. Offers and Discount Management
+11. WhatsApp Automation
+12. Staff Management
+13. Attendance Management
+14. Salary and Payroll
+15. Expenses Management
+16. Cash and Bank Management
+17. Sales and Profit Reports
+18. GST Reports
+19. Online Order Management
+20. Delivery Management
+21. Loyalty and Membership
+22. Notifications
+23. Complete Business Settings
+24. Security, Backup and Audit Logs
+
+Build this as one central operating system, not 24 separate applications.
+
+All features must communicate with each other through a shared backend.
+
+# SECTION 3 — TECHNOLOGY AND SYSTEM ARCHITECTURE
+
+Use:
+
+Frontend:
+- React
+- TypeScript
+- Tailwind CSS
+- Lucide React
+- Recharts
+- Responsive PWA architecture
+
+Backend:
+- Node.js server runtime
+- Secure server-side API endpoints
+- Google Cloud Run for deployment
+
+Primary Database:
+- Cloud SQL PostgreSQL for relational ERP records and financial transactions, where supported by the AI Studio environment.
+
+Authentication:
+- Firebase Authentication
+
+File Storage:
+- Firebase Storage or Google Cloud Storage
+
+Database Design:
+- Relational tables
+- Foreign keys
+- Indexes
+- Database constraints
+- Transaction-safe financial operations
+- Audit records
+
+If Cloud SQL provisioning is not available in the project, explain the required setup and request approval before changing the primary database architecture.
+
+Do not create two competing databases.
+
+Never use browser localStorage as the main production database.
+
+Use IndexedDB only for properly controlled offline POS queues and temporary offline data.
+
+Use secure environment variables for all API credentials.
+
+Never expose passwords, service account credentials, WhatsApp API tokens or payment secrets in browser code.
+
+# SECTION 4 — PROFESSIONAL UI AND BRAND DESIGN
+
+Create a luxurious, modern and professional Indian supermarket ERP interface.
+
+Brand Colour System:
+
+- Primary Navy: #0F172A
+- Warm Gold: #F59E0B
+- Emerald Green: #10B981
+- Alert Red: #EF4444
+- Background Ivory: #F8FAFC
+- Admin Slate: #E2E8F0
+
+Visual Style:
+
+- Premium Glassmorphism
+- Modern Bento Grid
+- Professional Business Dashboard
+- Clean Data Tables
+- Premium Product Cards
+- Smooth Animations
+- Beautiful Charts
+- Clear Hindi Typography
+- Dark Mode and Light Mode
+- Mobile Responsive
+- Desktop Responsive
+- Tablet Responsive
+
+Use:
+- Noto Sans Devanagari
+- Plus Jakarta Sans
+
+Build separate experiences for:
+
+A. Customer Website
+B. Owner Dashboard
+C. Manager Dashboard
+D. POS Cashier Screen
+E. Inventory Manager Screen
+F. Accountant Screen
+G. Delivery Staff Screen
+
+# SECTION 5 — MASTER OWNER CONTROL PANEL
+
+Create a powerful Owner Dashboard.
+
+The owner should be able to monitor the entire mall from one screen.
+
+Dashboard must display:
+
+BUSINESS SALES:
+- Today's Sales
+- Yesterday's Sales
+- Weekly Sales
+- Monthly Sales
+- Yearly Sales
+- Today's Bills
+- Average Bill Value
+
+PROFIT AND MONEY:
+- Gross Profit
+- Estimated Net Profit
+- Purchase Cost
+- Total Expenses
+- Cash in Hand
+- UPI Collection
+- Card Collection
+- Bank Collection
+- Customer Outstanding
+- Supplier Outstanding
+
+INVENTORY:
+- Total Products
+- Total Available Stock
+- Inventory Purchase Value
+- Inventory Selling Value
+- Low Stock Products
+- Out of Stock Products
+- Near Expiry Products
+- Expired Products
+
+CUSTOMER AND ORDER:
+- Total Customers
+- New Customers
+- Repeat Customers
+- Pending Online Orders
+- Orders in Packing
+- Orders Out for Delivery
+- Delivered Orders
+
+STAFF:
+- Total Employees
+- Present Staff
+- Absent Staff
+- Employees on Leave
+- Staff-wise Sales
+
+Provide:
+- Daily Overview
+- Weekly Analysis
+- Monthly Analysis
+- Custom Date Filters
+- Category-wise Analytics
+- Product Performance
+- Payment Analysis
+
+Every KPI must be calculated from real records and must not use hardcoded financial figures.
+
+# SECTION 6 — PRODUCT MASTER MANAGEMENT
+
+Build complete product management.
+
+Each product must have:
+
+- Product ID
+- Hindi Name
+- English Name
+- Product Image
+- SKU
+- Barcode
+- QR Code
+- Category
+- Subcategory
+- Brand
+- Manufacturer
+- HSN Code
+- GST Rate
+- Unit
+- Pack Size
+- Purchase Rate
+- MRP
+- Selling Price
+- Wholesale Price
+- Discount
+- Opening Stock
+- Current Stock
+- Minimum Stock
+- Maximum Stock
+- Reorder Level
+- Supplier
+- Rack Number
+- Batch Number
+- Manufacturing Date
+- Expiry Date
+- Product Description
+- Active / Inactive
+
+Units:
+
+KG, GM, LITRE, ML, PCS, PACKET, BOX, BOTTLE, CARTON, BUNDLE.
+
+Support unit conversions, fractional quantities and weight-based products.
+
+Operations:
+
+- Add Product
+- Edit Product
+- Delete or Archive Product
+- Duplicate Product
+- Bulk Product Import
+- Bulk Price Update
+- Bulk Stock Update
+- Barcode Generation
+- Barcode Printing
+- Image Upload
+- Product Search
+- Category Management
+- Brand Management
+
+Never silently delete a product with historical sales records.
+
+# SECTION 7 — COMPLETE INVENTORY CONTROL
+
+Inventory must automatically synchronize with POS, purchases, sales, orders and returns.
+
+Create:
+
+A. Stock Inward
+B. Stock Outward
+C. Stock Adjustment
+D. Stock Transfer
+E. Stock Return
+F. Batch Management
+G. Expiry Management
+H. Stock Valuation
+I. Inventory Movement Ledger
+J. Reorder Management
+
+Every movement must record:
+
+- Product
+- Date and Time
+- Previous Stock
+- Stock In
+- Stock Out
+- New Stock
+- Batch
+- Reason
+- Reference Number
+- Responsible Staff
+
+Inventory calculation:
+
+Opening Stock + Stock Received + Customer Returns - Sales - Damaged Stock - Supplier Returns = Closing Stock, subject to other authorized adjustments.
+
+Use an auditable weighted-average purchase cost calculation.
+
+Use FEFO (First Expiry, First Out) for batch-wise stock picking where applicable.
+
+Alert Conditions:
+
+- Low Stock
+- Critical Stock
+- Out of Stock
+- Near Expiry
+- Expired
+- Unusual Stock Adjustment
+
+Never allow stock to become negative without explicit authorized override and an audit record.
+
+# SECTION 8 — PURCHASE AND SUPPLIER MANAGEMENT
+
+Create a complete supplier and purchasing system.
+
+Supplier Information:
+
+- Supplier ID
+- Business Name
+- Contact Person
+- Mobile
+- WhatsApp
+- GSTIN
+- Address
+- Opening Balance
+- Credit Terms
+- Current Balance
+
+Purchase Workflow:
+
+Purchase Order → Goods Received Note → Stock Inward → Supplier Invoice → Payment Entry.
+
+Support:
+
+- Partial Purchases
+- Purchase Returns
+- Purchase Payments
+- Credit Purchases
+- Supplier Dues
+- Supplier Ledger
+- Purchase History
+- Supplier-wise Product Reports
+- Outstanding Payment Reminders
+
+When a purchase is confirmed, the inventory must update through a single reliable transaction.
+
+# SECTION 9 — PROFESSIONAL POS BILLING SYSTEM
+
+Build an extremely fast supermarket POS system.
+
+The cashier must be able to generate a bill quickly.
+
+Features:
+
+- Barcode Scanning
+- SKU Search
+- Hindi Product Search
+- English Product Search
+- Quick Category Selection
+- Add Product
+- Change Quantity
+- Weight-based Billing
+- Item Discount
+- Bill Discount
+- Coupon
+- Customer Selection
+- Walk-in Customer
+- Hold Bill
+- Resume Bill
+- Multiple Payment Methods
+- Refund
+- Sales Return
+- Invoice Reprint
+
+GST Calculations:
+
+- Item Total
+- Discount
+- Taxable Value
+- CGST
+- SGST
+- IGST
+- Total GST
+- Round Off
+- Grand Total
+- Customer Savings
+
+Allow GST-inclusive and GST-exclusive price configurations.
+
+Do not invent HSN codes or GST rates.
+
+Tax calculations must use configured tax rules and be reviewed before real tax invoicing.
+
+Payment Modes:
+
+- Cash
+- UPI
+- QR Code
+- Debit Card
+- Credit Card
+- Split Payment
+- Customer Credit / उधार
+
+Invoice Formats:
+
+- 58mm Thermal
+- 80mm Thermal
+- A4 Invoice
+- Customer Copy
+- Duplicate Invoice
+
+Invoice Header:
+
+भुवनेश्वर प्रसाद RK मिनी मॉल
+
+Include:
+
+- Business Logo
+- Official Phone: +91 9771946560
+- Business Address
+- GSTIN
+- Invoice Number
+- Date
+- Cashier
+- Customer Name
+- Product Details
+- Quantity
+- MRP
+- Selling Price
+- Discount
+- Tax
+- Grand Total
+- Payment Mode
+- Amount Paid
+- Balance Due
+- QR Payment Information
+- Thank You Message
+
+Automatic Billing Workflow:
+
+1. Validate cart.
+2. Validate product availability.
+3. Calculate all discounts and tax.
+4. Validate payment.
+5. Generate unique invoice.
+6. Save sale and sale items.
+7. Deduct inventory.
+8. Save stock movement.
+9. Update customer purchase history.
+10. Update customer loyalty.
+11. Update cash/payment ledger.
+12. Update sales and profit reports.
+13. Generate printable receipt.
+14. Create authorized customer message.
+
+Use an atomic database transaction and idempotency keys. Repeated clicks or network retries must never create duplicate invoices or deduct stock twice.
+
+# SECTION 10 — COMPLETE CUSTOMER CRM
+
+Create a Customer Master Database.
+
+Fields:
+
+- Customer ID
+- Customer Name
+- Mobile Number
+- WhatsApp Number
+- Email
+- Address
+- Area
+- Birthday
+- Anniversary
+- Registration Date
+- Membership
+- Loyalty Points
+- Total Purchase
+- Total Orders
+- Last Purchase
+- Outstanding Due
+- Customer Credit Limit
+- Marketing Consent
+- Customer Status
+
+Customer Operations:
+
+- Create
+- Edit
+- Search
+- Archive
+- View Profile
+- Purchase History
+- Customer Statement
+- Payment History
+- Customer Ledger
+- Loyalty History
+- Outstanding Dues
+
+Search by mobile number and name.
+
+Prevent duplicate records where possible.
+
+Allow customer statements to export in PDF.
+
+# SECTION 11 — COMPLETE CUSTOMER KHATA
+
+Build a professional Udhaar Management System.
+
+Each entry must record:
+
+- Customer
+- Date
+- Invoice
+- Previous Balance
+- New Credit
+- Payment Received
+- Payment Mode
+- Remaining Due
+- Due Date
+- Notes
+
+Features:
+
+- Credit Sale
+- Partial Payment
+- Full Payment
+- Payment Receipt
+- Customer Statement
+- Credit Limits
+- Overdue Alerts
+- WhatsApp Payment Reminders
+
+Every credit entry and payment must create a corresponding ledger transaction.
+
+Do not delete historical dues or payments. Correct them through authorized reversal entries.
+
+# SECTION 12 — OFFER AND DISCOUNT MANAGEMENT
+
+Create a powerful promotional campaign system.
+
+Offer types:
+
+- Flat Discount
+- Percentage Discount
+- Buy 1 Get 1
+- Buy 2 Get 1
+- Combo Offers
+- Category Offer
+- Product Offer
+- Brand Offer
+- Membership Discount
+- Weekend Deals
+- Festival Deals
+- Seasonal Promotions
+- Minimum Cart Discount
+- Customer-specific Coupon
+
+Offer Settings:
+
+- Offer Name
+- Image
+- Coupon Code
+- Description
+- Start Date
+- End Date
+- Minimum Purchase
+- Eligible Products
+- Eligible Categories
+- Maximum Discount
+- Usage Limit
+- Customer Limit
+- Coupon Priority
+- Stacking Rules
+- Active Status
+
+Automatically validate offers on POS and online checkout.
+
+Display active offers on the customer website.
+
+Prevent invalid stacking, duplicate redemption and expired coupons.
+
+# SECTION 13 — COMPLETE WHATSAPP AUTOMATION
+
+Use the official business number:
+
+**+91 9771946560**
+
+Build an automated communication module using WhatsApp Business Cloud API or an approved provider.
+
+Do not use unofficial bulk messaging methods.
+
+Do not fake successful message delivery.
+
+Support:
+
+- WhatsApp API
+- SMS Gateway
+- Email Provider
+
+Automatic Triggers:
+
+1. Customer Registration
+2. New Order
+3. Order Confirmation
+4. Order Packing
+5. Ready for Pickup
+6. Out for Delivery
+7. Order Delivered
+8. POS Invoice Created
+9. Payment Received
+10. Pending Credit Reminder
+11. Payment Due Reminder
+12. New Offer
+13. Birthday Wishes
+14. Anniversary Wishes
+15. Loyalty Points Update
+16. Supplier Payment Reminder
+17. Critical Stock Alert
+18. Expiry Alert
+
+Provide:
+
+- Hindi Templates
+- English Templates
+- Editable Message Variables
+- Message Queue
+- Delivery Reports
+- Failed Message Reports
+- Retry System
+- Message History
+- Consent Records
+- Unsubscribe Management
+
+Use the official API only after credentials and message templates are configured and approved.
+
+The store number is the business contact number. Configure the registered WhatsApp Business sender separately if the provider requires additional verification.
+
+Always respect consent and WhatsApp messaging policies.
+
+# SECTION 14 — STAFF MANAGEMENT
+
+Build a complete employee management module.
+
+Staff Records:
+
+- Staff ID
+- Full Name
+- Photo
+- Mobile
+- Email
+- Address
+- Joining Date
+- Designation
+- Department
+- Salary
+- Employment Status
+- Emergency Contact
+- Assigned Role
+
+Staff Roles:
+
+1. Owner
+2. Super Admin
+3. Manager
+4. Cashier
+5. Inventory Manager
+6. Accountant
+7. Delivery Staff
+
+Permissions:
+
+- Product Access
+- Billing Access
+- Discounts
+- Stock Adjustment
+- Refund Approval
+- Customer Data
+- Supplier Data
+- Accounting
+- Reports
+- Staff Management
+- Settings
+
+Create a permission matrix controlled by the Owner.
+
+Sensitive actions need authorization.
+
+# SECTION 15 — STAFF ATTENDANCE AND PAYROLL
+
+Attendance:
+
+- Check In
+- Check Out
+- Shift
+- Late Entry
+- Half Day
+- Full Day
+- Leave
+- Overtime
+- Monthly Attendance Summary
+
+Payroll:
+
+- Basic Salary
+- Allowances
+- Overtime
+- Advance
+- Authorized Deductions
+- Net Pay
+- Payment Date
+- Payment Mode
+- Salary Slip
+
+Salary records must be private and restricted to authorized users.
+
+Optional biometric attendance must only be enabled through a real supported device integration.
+
+# SECTION 16 — EXPENSE AND ACCOUNT MANAGEMENT
+
+Build a proper daily financial management system.
+
+Expense Categories:
+
+- Electricity
+- Rent
+- Salary
+- Transport
+- Packaging
+- Repair
+- Internet
+- Marketing
+- Maintenance
+- Miscellaneous
+
+Record:
+
+- Expense ID
+- Expense Date
+- Category
+- Description
+- Amount
+- Payment Mode
+- Receipt
+- Authorized By
+
+Cash Management:
+
+- Opening Cash
+- Cash Sales
+- Cash Receipts
+- Cash Refunds
+- Cash Expenses
+- Cash Deposits
+- Closing Cash
+- Difference
+
+Create:
+
+- Daily Cash Book
+- Bank Book
+- UPI Ledger
+- Payment Ledger
+- Customer Receivables
+- Supplier Payables
+- Daily Closing Report
+
+Maintain proper ledger entries and reconcile each payment method.
+
+Use an auditable accounting structure and clearly separate demo reports from actual financial records.
+
+# SECTION 17 — ONLINE STORE AND ORDER MANAGEMENT
+
+Build a premium online shopping website.
+
+Storefront:
+
+- Attractive Home Page
+- Product Catalogue
+- Categories
+- Product Search
+- Product Details
+- MRP
+- Selling Price
+- Discounts
+- Stock Status
+- Offers
+- Shopping Cart
+- Customer Profile
+- Quick Ration List
+- Checkout
+- Home Delivery
+- Store Pickup
+- Order Tracking
+- Contact Button
+
+Show business contact:
+
++91 9771946560
+
+Order workflow:
+
+New → Confirmed → Packing → Ready for Pickup / Out for Delivery → Delivered.
+
+Support cancellation, returns and refunds.
+
+Online orders must use the same product stock and price database as POS.
+
+Reserve stock for confirmed orders according to configurable business rules.
+
+Do not deduct inventory twice when an online order is converted to a POS invoice.
+
+Prevent overselling through server-side inventory validation.
+
+# SECTION 18 — DELIVERY MANAGEMENT
+
+Create:
+
+- Delivery Staff Assignment
+- Delivery Address
+- Delivery Charges
+- Delivery Schedule
+- Pickup Schedule
+- Delivery Status
+- Customer Contact
+- Proof of Delivery
+- Failed Delivery Reason
+- Delivery Performance
+
+Delivery staff must only see the orders assigned to them.
+
+# SECTION 19 — COMPLETE REPORTS AND ANALYTICS
+
+SALES REPORTS:
+
+- Daily
+- Weekly
+- Monthly
+- Annual
+- Product-wise
+- Category-wise
+- Customer-wise
+- Staff-wise
+- Payment-wise
+
+INVENTORY REPORTS:
+
+- Stock Valuation
+- Stock Movement
+- Purchase History
+- Sales Quantity
+- Low Stock
+- Out of Stock
+- Near Expiry
+- Expired Products
+- Fast Moving
+- Slow Moving
+- Dead Stock
+
+FINANCIAL REPORTS:
+
+- Gross Profit
+- Net Profit
+- Purchase Cost
+- COGS
+- Expenses
+- GST Summary
+- Cash Flow
+- Customer Dues
+- Supplier Dues
+- Payment Reconciliation
+
+STAFF REPORTS:
+
+- Attendance
+- Payroll
+- Employee Performance
+- Staff-wise Sales
+
+EXPORT OPTIONS:
+
+- PDF
+- Excel
+- CSV
+- Print
+
+Provide date filters and report previews.
+
+# SECTION 20 — BUSINESS SETTINGS
+
+Create a central Store Settings module.
+
+Editable Details:
+
+- Business Name
+- Hindi Name
+- English Name
+- Logo
+- Business Phone
+- WhatsApp Phone
+- Address
+- GSTIN
+- State
+- Store Hours
+- Opening Status
+- UPI ID
+- Payment QR
+- Delivery Charges
+- Minimum Order
+- Invoice Prefix
+- Invoice Sequence
+- GST Configuration
+- Loyalty Rules
+- Offer Rules
+- User Permissions
+- Notifications
+- Backup Settings
+
+Official default mobile:
++91 9771946560
+
+Never hardcode configurable store details throughout multiple components.
+
+# SECTION 21 — OFFLINE POS AND MULTI-DEVICE SUPPORT
+
+Build the application as a responsive Progressive Web App.
+
+Support:
+
+- Install on Mobile
+- Install on Desktop
+- Secure Login
+- Multi-device Access
+- Central Database
+- Real-time Updates
+- Controlled Offline POS
+- Background Synchronization
+
+During an internet interruption:
+
+- Display an explicit Offline status.
+- Allow only safe, locally queued POS operations.
+- Give each queued operation a unique idempotency key.
+- Store pending invoices clearly as Pending Sync.
+- Preserve invoice and stock audit history.
+- Synchronize when the internet returns.
+- Detect stock conflicts.
+- Prevent duplicate transactions.
+- Require authorized review for conflicting stock or payment records.
+
+Never claim that stock is globally synchronized while offline.
+
+# SECTION 22 — DATABASE STRUCTURE
+
+Create a complete database schema.
+
+Required entities:
+
+- businesses
+- branches
+- users
+- roles
+- permissions
+- staff
+- attendance
+- shifts
+- payroll
+- products
+- categories
+- brands
+- product_units
+- inventory_batches
+- inventory_movements
+- stock_alerts
+- suppliers
+- purchase_orders
+- purchase_items
+- goods_receipts
+- purchases
+- supplier_ledger
+- supplier_payments
+- customers
+- customer_addresses
+- customer_ledger
+- loyalty_transactions
+- offers
+- coupons
+- coupon_redemptions
+- sales
+- sale_items
+- invoices
+- payments
+- refunds
+- returns
+- online_orders
+- order_items
+- delivery_assignments
+- expenses
+- cash_registers
+- cash_movements
+- accounting_entries
+- message_templates
+- message_queue
+- message_logs
+- notifications
+- store_settings
+- audit_logs
+
+Use proper foreign keys, indexes, unique constraints and transactional logic.
+
+Keep immutable history for important financial events.
+
+# SECTION 23 — SECURITY AND BACKUP
+
+Implement:
+
+- Secure Authentication
+- Role-based Permissions
+- Server-side Validation
+- Database Security
+- Input Sanitization
+- API Rate Limiting
+- Audit Logs
+- Login Activity
+- Data Export
+- Automated Backup
+- Restore Procedure
+- Payment Verification
+- Data Privacy
+- Secure File Upload
+
+Never put financial secrets in the browser.
+
+Never allow direct deletion of completed invoices, payments or historical ledger entries.
+
+Use reversal transactions.
+
+Owner must have access to complete audit history.
+
+Provide a clear backup and disaster recovery plan.
+
+# SECTION 24 — DEMO DATA AND REAL BUSINESS ACTIVATION
+
+Create a setup wizard for the Owner.
+
+Initial demo products:
+
+- Aashirvaad Atta
+- Fortune Mustard Oil
+- Tata Tea Gold
+- Parle-G
+- Basmati Rice
+- Tata Salt
+- Surf Excel
+- Maggi
+- Lifebuoy
+- Colgate
+- Amul Milk
+- Toor Dal
+- Sugar
+- Shampoo
+- Detergent
+- Good Day Biscuits
+- Frooti
+- Notebook
+- Soap
+- Biscuits
+
+Include demo:
+
+- Customers
+- Suppliers
+- Staff
+- Purchases
+- Invoices
+- Sales
+- Offers
+- Expenses
+- Inventory Movements
+
+Mark every demo entry as DEMO.
+
+Provide a safe option to remove demo data without affecting genuine business records.
+
+Separate Demo Mode from Live Mode.
+
+Never mix sample sales, sample profit or sample dues with actual business reports.
+
+# SECTION 25 — TESTING AND ACCEPTANCE
+
+Before declaring this software complete, perform the following tests.
+
+1. Owner can securely log in.
+2. Owner can create and manage staff.
+3. Cashier can create a POS bill.
+4. Barcode search works.
+5. Product quantity updates correctly.
+6. Completing a sale deducts stock exactly once.
+7. Customer purchase history updates.
+8. Customer Khata updates.
+9. Customer payments update the correct balance.
+10. Supplier purchases increase stock.
+11. Supplier payments update balances.
+12. Low stock alert works.
+13. Expiry alert works.
+14. Coupon validation works.
+15. Online orders appear in the Admin ERP.
+16. Orders cannot oversell stock.
+17. Order cancellation correctly handles reserved stock.
+18. Refunds create reversal transactions.
+19. WhatsApp queue logs actual provider responses.
+20. Invoice printing works.
+21. A4 and thermal layouts are readable.
+22. Daily closing reconciles payments.
+23. Reports use actual transaction data.
+24. Staff cannot access unauthorized data.
+25. Offline invoices synchronize without duplication.
+26. Data persists after refresh and across authorized devices.
+27. CSV, Excel and PDF exports work.
+
+# SECTION 26 — DEVELOPMENT EXECUTION RULES
+
+Do not build the application as one giant component.
+
+Use modular folders and reusable components.
+
+Build the actual application in these phases:
+
+PHASE 1: Project Setup, Database, Authentication, UI and Roles.
+
+PHASE 2: Product Management, Category and Inventory.
+
+PHASE 3: Purchase Management and Supplier Ledgers.
+
+PHASE 4: POS, GST, Payments and Invoice Printing.
+
+PHASE 5: Customers, CRM, Khata and Loyalty.
+
+PHASE 6: Offers, Coupons and Online Store.
+
+PHASE 7: Order Management and Delivery.
+
+PHASE 8: WhatsApp, SMS and Email Automation.
+
+PHASE 9: Staff, Attendance and Payroll.
+
+PHASE 10: Expenses, Accounts, Cash Book and Reports.
+
+PHASE 11: Offline Support, Security, Audit and Backups.
+
+PHASE 12: Full Integration Testing and Deployment.
+
+Continue working within the existing project after every phase.
+
+Never replace a completed module with a dummy screen.
+
+Do not leave empty menu pages.
+
+Do not use fake buttons.
+
+Do not show fake success messages.
+
+Do not mark an unintegrated feature as completed.
+
+For every module:
+- Implement complete CRUD operations where appropriate.
+- Connect forms to the real database.
+- Add validation.
+- Add error handling.
+- Add permission checks.
+- Add audit records.
+- Add loading states.
+- Test actual data workflows.
+
+Run the build and fix code errors before marking a phase complete.
+
+# FINAL INSTRUCTION
+
+Build the complete business operating system for:
+
+**भुवनेश्वर प्रसाद RK मिनी मॉल**
+
+This system will operate the owner's entire mall.
+
+It must handle:
+
+PRODUCTS + STOCK + PURCHASES + SUPPLIERS + CUSTOMERS + BILLING + SALES + MONEY + KHATA + OFFERS + WHATSAPP + STAFF + ATTENDANCE + SALARY + EXPENSES + ONLINE ORDERS + REPORTS.
+
+The Owner must be able to understand the complete condition of the business from one central dashboard.
+
+The cashier must be able to generate bills quickly.
+
+The inventory manager must be able to control every product and stock movement.
+
+The accountant must be able to reconcile sales, expenses, customers and suppliers.
+
+The manager must be able to supervise staff and daily operations.
+
+Customers must be able to shop online and contact the store.
+
+All modules must work together using a secure, centralized database.
+
+**BUILD THE ACTUAL WORKING SOFTWARE, NOT JUST A DESIGN OR A PLAN.**
